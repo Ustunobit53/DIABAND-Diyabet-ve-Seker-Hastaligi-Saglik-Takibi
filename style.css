@@ -1,0 +1,75 @@
+body {
+  margin: 0;
+  padding: 20px;
+  background: #000;
+  color: #00ffff;
+  font-family: monospace;
+}
+
+.container {
+  max-width: 700px;
+  margin: 20px auto;
+  background: #001111;
+  padding: 20px;
+  border: 1px solid #00ffff;
+  border-radius: 10px;
+}
+
+h1, h2, h3, label {
+  color: #00ffff;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  background: transparent;
+  border: 1px solid #00ffff;
+  border-radius: 4px;
+  color: #00ffff;
+  box-sizing: border-box;
+}
+
+button {
+  background: #00ffff;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #00cccc;
+}
+
+.hidden {
+  display: none;
+}
+
+.status.saglikli {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.status.sagliksiz {
+  color: #f44336;
+  font-weight: bold;
+}
+
+.grid-two {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.grid-two > div {
+  flex: 1;
+  min-width: 200px;
+}
+
+#calculator {
+  margin: auto;
+}
+
+#qr-reader {
+  width: 100%;
+}
