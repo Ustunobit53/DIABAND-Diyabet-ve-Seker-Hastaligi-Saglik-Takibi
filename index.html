@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DİABAND – Sağlık Takip</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- KARŞILAMA -->
+  <div id="welcome" class="container">
+    <h1>Hoşgeldiniz!</h1>
+    <button onclick="show('login')">Giriş Yap</button>
+    <button onclick="show('register')">Kayıt Ol</button>
+  </div>
+
+  <!-- KAYIT -->
+  <div id="register" class="container hidden">
+    <h1>Kayıt Ol</h1>
+    <input id="regTc" type="text" placeholder="TC Kimlik No" maxlength="11" inputmode="numeric">
+    <input id="regName" type="text" placeholder="Ad Soyad">
+    <input id="regPass" type="password" placeholder="Şifre (4 haneli)" maxlength="4" inputmode="numeric">
+    <input id="regPatientPhone" type="tel" placeholder="Hasta Telefon (0xxx...)">
+    <input id="regRelName" type="text" placeholder="Yakın Ad Soyad">
+    <input id="regRelPhone" type="tel" placeholder="Yakın Telefon">
+    <button onclick="register()">Kaydet</button>
+    <button onclick="show('welcome')">Geri</button>
+  </div>
+
+  <!-- GİRİŞ -->
+  <div id="login" class="container hidden">
+    <h1>Giriş Yap / Bilgileri Güncelle</h1>
+    <input id="loginTc" type="text" placeholder="TC Kimlik No" maxlength="11" inputmode="numeric" oninput="loginTcChanged()">
+    <input id="loginPass" type="password" placeholder="Şifre" maxlength="4" inputmode="numeric">
+    <input id="loginName" type="text" placeholder="Ad Soyad">
+    <input id="loginPatientPhone" type="tel" placeholder="Hasta Telefon">
+    <input id="loginRelName" type="text" placeholder="Yakın Ad Soyad">
+    <input id="loginRelPhone" type="tel" placeholder="Yakın Telefon">
+    <button onclick="login()">Giriş Yap</button>
+    <button onclick="updateUser()">Bilgileri Güncelle</button>
+    <button onclick="show('welcome')">Geri</button>
+  </div>
+
+  <!-- ANA UYGULAMA -->
+  <div id="app" class="container hidden">
+    <h1>Hoşgeldiniz, <span id="userName"></span>!</h1>
+    <p><strong>TC:</strong> <span id="uTc"></span></p>
+    <p><strong>Telefon:</strong> <span id="uPatientPhone"></span></p>
+    <p><strong>Yakın:</strong> <span id="uRelName"></span> (<span id="uRelPhone"></span>)</p>
+    <button onclick="logout()">Çıkış Yap</button>
+
+    <h2>Acil Yakını Arama</h2>
+    <input id="acilTelefon" type="tel" placeholder="Örnek: 05001234567">
+    <button onclick="acilAra()">Ara</button>
+
+    <h2>Kandaki Glikoz</h2>
+    <input id="glikozMiktar" type="number" placeholder="mg/dL">
+    <button onclick="glikozDurumu()">Hesapla</button>
+    <div id="glikozSonuc" class="status"></div>
+
+    <h2>HbA1c → Ortalama Glikoz</h2>
+    <input id="hba1cDegeri" type="number" step="0.1" placeholder="HbA1c (%)">
+    <button onclick="hba1cHesapla()">Hesapla</button>
+    <div id="hba1cSonuc" class="status"></div>
+
+    <h2>İlaç Saati Ekle</h2>
+    <input id="ilacAdi" placeholder="İlaç Adı">
+    <input id="ilacSaati" type="time">
+    <button onclick="ilacEkle()">Ekle</button>
+    <ul id="ilacListesi"></ul>
+
+    <h2>İdrar Rengi Değerlendirme</h2>
+    <select id="idrarRengi" onchange="degerlendirIdrar()">
+      <option value="">Seçiniz</option>
+      <option value="koyu">Koyu</option>
+      <option value="kirmizi">Kırmızı</option>
+      <option value="normal">Normal Sarı</option>
+    </select>
+    <div id="idrarSonuc" class="status"></div>
+
+    <h2>Hesap Makinesi</h2>
+    <div id="calculator">
+      <input id="calcDisplay" type="text" placeholder="İşlemi yazınız (örn: 2+3*4)" />
+      <button onclick="calcCalculate()">=</button>
+      <button onclick="calcClear()">Temizle</button>
+    </div>
+
+    <h2>Zamanlayıcı</h2>
+    <input id="timerInput" type="number" placeholder="Saniye">
+    <button onclick="baslatTimer()">Başlat</button>
+    <button onclick="sifirlaTimer()">Sıfırla</button>
+    <div id="timerDisplay"></div>
+
+    <h2>Glikoz Grafiği</h2>
+    <button onclick="veriEkle()">Rastgele Glikoz Ekle</button>
+    <canvas id="glikozChart" width="600" height="300"></canvas>
+
+    <h2>Beslenme Takvimi</h2>
+    <ul>
+      <li>Kahvaltı: Yulaf, yeşil çay, meyve</li>
+      <li>Öğle: Izgara tavuk, salata</li>
+      <li>Ara: Yoğurt, badem</li>
+      <li>Akşam: Sebze yemeği, tam tahıllı ekmek</li>
+    </ul>
+
+    <h2>Dünya Şeker Hastalığı İndeksi (2025)</h2>
+    <p>2025 itibarıyla, dünya genelinde yaklaşık <strong>540 milyon</strong> diyabet hastası bulunmaktadır. Bu sayı yıllık olarak artmaktadır.</p>
+
+    <h2>Şeker Hastalığından Korunmak İçin Tedbirler</h2>
+    <ul>
+      <li>Düzenli egzersiz yapın</li>
+      <li>Sağlıklı ve dengeli beslenin</li>
+      <li>Stresten uzak durun</li>
+      <li>Düzenli sağlık kontrolleri yaptırın</li>
+      <li>Sigara ve alkol kullanımından kaçının</li>
+    </ul>
+
+    <!-- QR Kod Okuma Bölümü -->
+    <h2>Yakına Mesaj Gönder (QR Kod Okuma)</h2>
+    <button onclick="toggleQRReader()">QR Okuyucuyu Aç/Kapat</button>
+    <div id="qr-reader" class="hidden"></div>
+    <div id="qr-result" style="margin-top:10px; color:#0ff;"></div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.7/minified/html5-qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
